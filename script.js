@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
       stars = [];
       const density = 0.00015; // Star density per pixel
       const starCount = Math.floor(canvas.width * canvas.height * density);
-      
+
       for (let i = 0; i < starCount; i++) {
         stars.push({
           x: Math.random() * canvas.width,
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+
       stars.forEach(star => {
         // Twinkling effect
         star.opacity += star.speed * star.twinkleFactor;
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const updateCounters = () => {
     const today = new Date();
-    
+
     // Normalize to midnight for clean day calculation
     const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const daysSinceMet = getDaysDiff(metDate, todayMidnight);
     const daysOfficial = getDaysDiff(officialDate, todayMidnight);
-    
+
     // Remaining days to 1 month
     let daysToNext = getDaysDiff(todayMidnight, oneMonthDate);
     if (daysToNext < 0) {
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // E.g., July 4th, August 4th, etc.
       let targetMonth = today.getMonth();
       let targetYear = today.getFullYear();
-      
+
       // If today is past the 4th, target the 4th of next month
       if (today.getDate() >= 4) {
         targetMonth += 1;
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         element.textContent = '0';
         return;
       }
-      
+
       let startTimestamp = null;
       const step = (timestamp) => {
         if (!startTimestamp) startTimestamp = timestamp;
@@ -161,58 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updateCounters();
 
-  // --- 3. Photo Frame Upload & Persistence ---
-  const photoFrame = document.getElementById('photoFrame');
-  const photoInput = document.getElementById('photoInput');
-  const photoImg = document.getElementById('photoImg');
-  const photoPlaceholder = document.getElementById('photoPlaceholder');
-  const uploadStatus = document.getElementById('upload-status');
-
-  // Trigger input click when photo frame is clicked
-  if (photoFrame && photoInput) {
-    photoFrame.addEventListener('click', () => {
-      photoInput.click();
-    });
-  }
-
-  // Load saved photo if exists
-  const savedPhoto = localStorage.getItem('kaveesha_love_photo');
-  if (savedPhoto && photoImg && photoPlaceholder) {
-    photoImg.src = savedPhoto;
-    photoImg.style.display = 'block';
-    photoPlaceholder.style.display = 'none';
-  }
-
-  // Handle new photo upload
-  if (photoInput) {
-    photoInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        if (file.size > 2 * 1024 * 1024) {
-          showStatus(uploadStatus, 'Please select an image smaller than 2MB ✨', 'rgba(240, 230, 255, 0.7)');
-          return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const base64Image = event.target.result;
-          try {
-            localStorage.setItem('kaveesha_love_photo', base64Image);
-            if (photoImg && photoPlaceholder) {
-              photoImg.src = base64Image;
-              photoImg.style.display = 'block';
-              photoPlaceholder.style.display = 'none';
-            }
-            showStatus(uploadStatus, 'Saved in our galaxy! 💫', 'var(--accent-light)');
-          } catch (error) {
-            console.error(error);
-            showStatus(uploadStatus, 'Image too large to save in browser memory 🌟', 'rgba(255, 100, 100, 0.8)');
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  }
+  // --- 3. Photo Frame Section ---
+  // The photo is now set statically via the image src attribute in HTML.
 
   // --- 4. Kaveesha's Reply Persistence & Sending ---
   const replyBox = document.getElementById('replyBox');
@@ -306,19 +256,19 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       title: "First met",
       date: "19 Nov 2025",
-      image: "https://images.unsplash.com/photo-1464802686167-b939a6910659?q=80&w=600&auto=format&fit=crop",
+      image: "first.jpg",
       quote: "“Under the very same sky, the universe whispered our names and rewrote our destinies.”"
     },
     {
       title: "The confession",
       date: "28 Apr 2026",
-      image: "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?q=80&w=600&auto=format&fit=crop",
+      image: "second.jpg",
       quote: "“In the quiet of the night, words became courage, and silence turned into forever.”"
     },
     {
       title: "It became official",
       date: "4 May 2026",
-      image: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=600&auto=format&fit=crop",
+      image: "third.jpg",
       quote: "“My favorite place in the entire cosmos is right here, standing by your side.”"
     }
   ];
@@ -380,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
     element.textContent = message;
     element.style.color = color;
     element.style.opacity = '1';
-    
+
     // Smooth fade out after 3 seconds
     setTimeout(() => {
       element.style.transition = 'opacity 1s ease';
