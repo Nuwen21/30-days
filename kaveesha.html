@@ -29,19 +29,19 @@
         <h2 class="section-title">our constellations</h2>
         <div class="timeline">
           <div class="timeline-line"></div>
-          <div class="const-card">
+          <div class="const-card" data-index="0">
             <div class="const-dot"></div>
             <div class="const-date">19 Nov 2025</div>
             <div class="const-label">First met</div>
             <div class="const-desc">The universe placed us in the same moment, and nothing was the same after.</div>
           </div>
-          <div class="const-card">
+          <div class="const-card" data-index="1">
             <div class="const-dot highlight-dot"></div>
             <div class="const-date">28 Apr 2026</div>
             <div class="const-label">The confession</div>
             <div class="const-desc">Words typed in the dark, hearts racing. You said it. I said it back.</div>
           </div>
-          <div class="const-card">
+          <div class="const-card" data-index="2">
             <div class="const-dot"></div>
             <div class="const-date">4 May 2026</div>
             <div class="const-label">It became official</div>
@@ -108,6 +108,21 @@
     <footer class="footer">
       <div class="footer-text">Luv you to the moon 🌕</div>
     </footer>
+  </div>
+
+  <!-- Glassy Modal Popup for Constellations -->
+  <div class="modal-overlay" id="constellationModal">
+    <div class="glass-panel modal-content">
+      <button class="modal-close" id="modalCloseBtn">&times;</button>
+      <div class="modal-image-container">
+        <img src="" alt="Constellation memory image" id="modalImage">
+      </div>
+      <div class="modal-text-container">
+        <h3 id="modalTitle" class="modal-title"></h3>
+        <p id="modalDate" class="modal-date"></p>
+        <blockquote id="modalQuote" class="modal-quote"></blockquote>
+      </div>
+    </div>
   </div>
 </body>
 </html>
