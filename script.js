@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       showStatus(replyStatus, 'Opening WhatsApp... 💬', 'var(--accent-light)');
       const formattedText = `Hi! I wrote this for you: \n\n"${text}"`;
-      const url = `https://wa.me/${MY_WHATSAPP_NUMBER}?text=${encodeURIComponent(formattedText)}`;
+      const url = `https://api.whatsapp.com/send?phone=${MY_WHATSAPP_NUMBER}&text=${encodeURIComponent(formattedText)}`;
       window.open(url, '_blank');
     });
   }
@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       title: "It became official",
       date: "4 May 2026",
-      image: "third.jpg",
+      image: "third.JPG",
       quote: "“My favorite place in the entire cosmos is right here, standing by your side.”"
     }
   ];
