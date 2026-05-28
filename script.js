@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       title: "It became official",
       date: "4 May 2026",
-      image: "third.JPG",
+      image: "third.jpg",
       quote: "“My favorite place in the entire cosmos is right here, standing by your side.”"
     }
   ];
