@@ -2,8 +2,8 @@
 
 // ==========================================
 // --- CONFIGURATION (Change these to your own details!) ---
-const MY_EMAIL = "your-email@example.com"; // Enter your email here to receive the letters
-const MY_WHATSAPP_NUMBER = "your-whatsapp-number"; // Enter your phone number with country code (no spaces/plus, e.g. "94771234567")
+const MY_EMAIL = "nuwensarathchandra14@gmail.com"; // Enter your email here to receive the letters
+const MY_WHATSAPP_NUMBER = "94779598323"; // Enter your phone number with country code (no spaces/plus, e.g. "94771234567")
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -300,6 +300,79 @@ document.addEventListener('DOMContentLoaded', () => {
       window.open(url, '_blank');
     });
   }
+
+  // --- 5. Constellation Glassy Popups ---
+  const constellationData = [
+    {
+      title: "First met",
+      date: "19 Nov 2025",
+      image: "https://images.unsplash.com/photo-1464802686167-b939a6910659?q=80&w=600&auto=format&fit=crop",
+      quote: "“Under the very same sky, the universe whispered our names and rewrote our destinies.”"
+    },
+    {
+      title: "The confession",
+      date: "28 Apr 2026",
+      image: "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?q=80&w=600&auto=format&fit=crop",
+      quote: "“In the quiet of the night, words became courage, and silence turned into forever.”"
+    },
+    {
+      title: "It became official",
+      date: "4 May 2026",
+      image: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=600&auto=format&fit=crop",
+      quote: "“My favorite place in the entire cosmos is right here, standing by your side.”"
+    }
+  ];
+
+  const constellationCards = document.querySelectorAll('.const-card');
+  const modalOverlay = document.getElementById('constellationModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDate = document.getElementById('modalDate');
+  const modalImage = document.getElementById('modalImage');
+  const modalQuote = document.getElementById('modalQuote');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+  const closeModal = () => {
+    if (modalOverlay) {
+      modalOverlay.classList.remove('active');
+      document.body.classList.remove('modal-open');
+    }
+  };
+
+  if (constellationCards && modalOverlay) {
+    constellationCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const index = card.getAttribute('data-index');
+        if (index !== null && constellationData[index]) {
+          const data = constellationData[index];
+          if (modalTitle) modalTitle.textContent = data.title;
+          if (modalDate) modalDate.textContent = data.date;
+          if (modalImage) modalImage.src = data.image;
+          if (modalQuote) modalQuote.textContent = data.quote;
+
+          modalOverlay.classList.add('active');
+          document.body.classList.add('modal-open');
+        }
+      });
+    });
+  }
+
+  if (modalCloseBtn) {
+    modalCloseBtn.addEventListener('click', closeModal);
+  }
+
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        closeModal();
+      }
+    });
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  });
 
   // Helper function to display temporary status text
   const showStatus = (element, message, color) => {
