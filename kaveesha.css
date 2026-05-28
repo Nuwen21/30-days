@@ -77,10 +77,10 @@ h1, h2, .letter-body, .reply-box {
 
 /* Photo & Forms */
 .file-input { display: none; }
-.photo-frame { border: 1px solid var(--glass-border); border-radius: 12px; padding: 16px 16px 48px; background: rgba(10, 10, 26, 0.8); max-width: 300px; margin: 0 auto; cursor: pointer; transition: 0.3s; }
+.photo-frame { border: 1px solid var(--glass-border); border-radius: 12px; padding: 16px 16px 48px; background: rgba(10, 10, 26, 0.8); max-width: 300px; margin: 0 auto; cursor: default; transition: 0.3s; }
 .photo-frame:hover { border-color: var(--accent-primary); transform: translateY(-5px); }
 .photo-inner { background: #000; border-radius: 8px; height: 350px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
-.photo-inner img { width: 100%; height: 100%; object-fit: cover; display: none; }
+.photo-inner img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .photo-placeholder { text-align: center; color: var(--text-muted); }
 .photo-icon { font-size: 32px; margin-bottom: 12px; }
 .photo-hint { font-size: 13px; }
