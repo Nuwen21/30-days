@@ -87,6 +87,142 @@ document.addEventListener('DOMContentLoaded', () => {
     animate();
   }
 
+  // --- 1.5 Falling Flower Petals Canvas ---
+  const petalsCanvas = document.getElementById('petalsCanvas');
+  if (petalsCanvas) {
+    const pCtx = petalsCanvas.getContext('2d');
+    let petals = [];
+
+    const resizePetals = () => {
+      petalsCanvas.width = window.innerWidth;
+      petalsCanvas.height = window.innerHeight;
+    };
+
+    const petalColors = [
+      { c1: '#ffd1dc', c2: '#ff9ebb', v: '#e5809e' }, // soft pink
+      { c1: '#f8c8dc', c2: '#e6a8d7', v: '#c97bb6' }, // blush lavender
+      { c1: '#ffe4e1', c2: '#ffb6c1', v: '#ea899a' }, // misty rose
+      { c1: '#eed9fc', c2: '#cca7e6', v: '#a973cb' }, // pale violet
+      { c1: '#fff0f5', c2: '#ffc5d3', v: '#e690a2' }  // lavender blush
+    ];
+
+    const initPetals = () => {
+      petals = [];
+      const count = Math.min(Math.floor(window.innerWidth * 0.035), 45);
+      for (let i = 0; i < count; i++) {
+        const color = petalColors[Math.floor(Math.random() * petalColors.length)];
+        const isFlower = Math.random() < 0.22; // ~20% full blossom, 80% petals
+        petals.push({
+          x: Math.random() * petalsCanvas.width,
+          y: Math.random() * petalsCanvas.height,
+          size: isFlower ? Math.random() * 5 + 8 : Math.random() * 6 + 7,
+          speedY: Math.random() * 1.2 + 0.6,
+          speedX: (Math.random() - 0.5) * 0.5,
+          wobble: Math.random() * Math.PI * 2,
+          wobbleSpeed: Math.random() * 0.02 + 0.01,
+          angle: Math.random() * Math.PI * 2,
+          spinSpeed: (Math.random() - 0.5) * 0.03,
+          opacity: Math.random() * 0.35 + 0.55,
+          color1: color.c1,
+          color2: color.c2,
+          veinColor: color.v,
+          isFlower: isFlower
+        });
+      }
+    };
+
+    const drawPetal = (p) => {
+      pCtx.save();
+      pCtx.translate(p.x, p.y);
+      pCtx.rotate(p.angle);
+      const flip = Math.cos(p.wobble);
+      pCtx.scale(flip, 1);
+      pCtx.globalAlpha = p.opacity;
+
+      if (p.isFlower) {
+        // Delicate 5-petal blossom
+        for (let i = 0; i < 5; i++) {
+          pCtx.save();
+          pCtx.rotate((i * Math.PI * 2) / 5);
+          const grad = pCtx.createRadialGradient(0, 0, 0, 0, p.size, p.size);
+          grad.addColorStop(0, '#ffffff');
+          grad.addColorStop(0.5, p.color1);
+          grad.addColorStop(1, p.color2);
+          pCtx.fillStyle = grad;
+          pCtx.beginPath();
+          pCtx.moveTo(0, 0);
+          pCtx.bezierCurveTo(p.size * 0.5, -p.size * 0.4, p.size * 0.6, p.size * 0.7, 0, p.size);
+          pCtx.bezierCurveTo(-p.size * 0.6, p.size * 0.7, -p.size * 0.5, -p.size * 0.4, 0, 0);
+          pCtx.fill();
+          pCtx.restore();
+        }
+        // Center pistil
+        pCtx.beginPath();
+        pCtx.arc(0, 0, p.size * 0.22, 0, Math.PI * 2);
+        pCtx.fillStyle = '#ffeaa7';
+        pCtx.fill();
+      } else {
+        // Curved petal
+        const grad = pCtx.createLinearGradient(0, -p.size, 0, p.size);
+        grad.addColorStop(0, p.color1);
+        grad.addColorStop(1, p.color2);
+        pCtx.fillStyle = grad;
+
+        pCtx.beginPath();
+        pCtx.moveTo(0, -p.size);
+        pCtx.bezierCurveTo(p.size * 0.8, -p.size * 0.5, p.size * 0.8, p.size * 0.8, 0, p.size);
+        pCtx.bezierCurveTo(-p.size * 0.8, p.size * 0.8, -p.size * 0.8, -p.size * 0.5, 0, -p.size);
+        pCtx.fill();
+
+        // Delicate vein
+        pCtx.strokeStyle = p.veinColor;
+        pCtx.lineWidth = 0.6;
+        pCtx.globalAlpha = p.opacity * 0.5;
+        pCtx.beginPath();
+        pCtx.moveTo(0, -p.size * 0.7);
+        pCtx.lineTo(0, p.size * 0.6);
+        pCtx.stroke();
+      }
+
+      pCtx.restore();
+    };
+
+    const animatePetals = () => {
+      pCtx.clearRect(0, 0, petalsCanvas.width, petalsCanvas.height);
+
+      petals.forEach(p => {
+        p.wobble += p.wobbleSpeed;
+        p.angle += p.spinSpeed;
+        p.y += p.speedY;
+        p.x += Math.sin(p.wobble) * 0.8 + p.speedX;
+
+        // Reset if offscreen
+        if (p.y > petalsCanvas.height + 40) {
+          p.y = -30;
+          p.x = Math.random() * petalsCanvas.width;
+        }
+        if (p.x > petalsCanvas.width + 40) {
+          p.x = -20;
+        } else if (p.x < -40) {
+          p.x = petalsCanvas.width + 20;
+        }
+
+        drawPetal(p);
+      });
+
+      requestAnimationFrame(animatePetals);
+    };
+
+    window.addEventListener('resize', () => {
+      resizePetals();
+      initPetals();
+    });
+
+    resizePetals();
+    initPetals();
+    animatePetals();
+  }
+
   // --- 2. Dynamic Counters ---
   const metDate = new Date('2025-11-19T00:00:00');
   const officialDate = new Date('2026-05-04T00:00:00');
@@ -107,30 +243,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const daysSinceMet = getDaysDiff(metDate, todayMidnight);
     const daysOfficial = getDaysDiff(officialDate, todayMidnight);
 
-    // Remaining days to 1 month
-    let daysToNext = getDaysDiff(todayMidnight, oneMonthDate);
-    if (daysToNext < 0) {
-      // If we are past the 1 month anniversary, calculate days to the next month's anniversary
-      // E.g., July 4th, August 4th, etc.
+    // Remaining days to next monthly milestone
+    let nextAnniversary = oneMonthDate;
+    if (getDaysDiff(todayMidnight, oneMonthDate) < 0) {
       let targetMonth = today.getMonth();
       let targetYear = today.getFullYear();
 
       // If today is past the 4th, target the 4th of next month
-      if (today.getDate() >= 4) {
+      if (today.getDate() > 4) {
         targetMonth += 1;
         if (targetMonth > 11) {
           targetMonth = 0;
           targetYear += 1;
         }
       }
-      const nextAnniversary = new Date(targetYear, targetMonth, 4);
-      daysToNext = getDaysDiff(todayMidnight, nextAnniversary);
+      nextAnniversary = new Date(targetYear, targetMonth, 4);
     }
+    const daysToNext = getDaysDiff(todayMidnight, nextAnniversary);
+
+    // Calculate how many months anniversary this milestone represents
+    const monthsTogether =
+      (nextAnniversary.getFullYear() - officialDate.getFullYear()) * 12 +
+      (nextAnniversary.getMonth() - officialDate.getMonth());
 
     // Element references
     const cntMetEl = document.getElementById('cnt-met');
     const cntOfficialEl = document.getElementById('cnt-official');
     const cntNextEl = document.getElementById('cnt-next');
+    const cntNextLabelEl =
+      document.getElementById('cnt-next-label') ||
+      cntNextEl?.parentElement?.querySelector('.counter-label');
+
+    if (cntNextLabelEl) {
+      cntNextLabelEl.textContent = `days to ${monthsTogether} ${monthsTogether === 1 ? 'month' : 'months'}`;
+    }
 
     // Animate counter logic
     const animateValue = (element, targetValue, duration = 1500) => {
@@ -268,7 +414,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       title: "It became official",
       date: "4 May 2026",
-      image: "third.jpg",
+      image: "third.JPG",
       quote: "“My favorite place in the entire cosmos is right here, standing by your side.”"
     }
   ];
@@ -341,4 +487,67 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 1000);
     }, 3000);
   };
+
+  // --- 5. Background Music Player ("Adaariye - Cozzy") ---
+  const bgMusic = document.getElementById('bgMusic');
+  const musicPill = document.getElementById('musicToggleBtn');
+  const musicPlayIcon = document.getElementById('musicPlayIcon');
+  const musicActionText = document.getElementById('musicActionText');
+
+  if (bgMusic && musicPill) {
+    bgMusic.volume = 0.45;
+
+    const startPlayback = () => {
+      const playPromise = bgMusic.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            musicPill.classList.add('playing');
+            if (musicPlayIcon) musicPlayIcon.textContent = '⏸';
+            if (musicActionText) musicActionText.textContent = 'Now Playing';
+          })
+          .catch(() => {
+            // Autoplay blocked by browser policy until interaction
+            musicPill.classList.remove('playing');
+            if (musicPlayIcon) musicPlayIcon.textContent = '▶';
+            if (musicActionText) musicActionText.textContent = 'Click to Play';
+          });
+      }
+    };
+
+    const pausePlayback = () => {
+      bgMusic.pause();
+      musicPill.classList.remove('playing');
+      if (musicPlayIcon) musicPlayIcon.textContent = '▶';
+      if (musicActionText) musicActionText.textContent = 'Paused';
+    };
+
+    musicPill.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (bgMusic.paused) {
+        startPlayback();
+      } else {
+        pausePlayback();
+      }
+    });
+
+    // Start playing on first user gesture anywhere on page
+    const handleFirstGesture = () => {
+      if (bgMusic.paused) {
+        startPlayback();
+      }
+      window.removeEventListener('click', handleFirstGesture);
+      window.removeEventListener('touchstart', handleFirstGesture);
+      window.removeEventListener('keydown', handleFirstGesture);
+      window.removeEventListener('scroll', handleFirstGesture);
+    };
+
+    window.addEventListener('click', handleFirstGesture, { once: true });
+    window.addEventListener('touchstart', handleFirstGesture, { once: true });
+    window.addEventListener('keydown', handleFirstGesture, { once: true });
+    window.addEventListener('scroll', handleFirstGesture, { once: true });
+
+    // Initial play attempt
+    startPlayback();
+  }
 });
