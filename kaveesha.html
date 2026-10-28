@@ -15,6 +15,20 @@
 <body>
   <div class="night-wrap">
     <canvas class="stars-canvas" id="starsCanvas"></canvas>
+    <canvas class="petals-canvas" id="petalsCanvas"></canvas>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" src="adaariye.m4a?v=2" preload="auto" loop></audio>
+
+    <!-- Floating Music Player Control -->
+    <div class="music-pill" id="musicToggleBtn" title="Click to play / pause music">
+      <div class="music-disc" id="musicDisc">🎵</div>
+      <div class="music-info">
+        <span class="music-title">Adaariye · Cozzy</span>
+        <span class="music-action" id="musicActionText">Click to Play</span>
+      </div>
+      <button class="music-play-btn" id="musicPlayIcon" aria-label="Play or Pause">▶</button>
+    </div>
 
     <header class="hero" id="hero">
       <div class="moon"></div>
@@ -67,7 +81,7 @@
         <div class="counter-divider"></div>
         <div class="counter-item">
           <div class="counter-num" id="cnt-next">—</div>
-          <div class="counter-label">days to 1 month</div>
+          <div class="counter-label" id="cnt-next-label">days to 6 months</div>
         </div>
       </section>
 
@@ -93,9 +107,9 @@
       </section>
 
       <section class="reply-section glass-panel">
-        <label for="replyBox" class="reply-label">Your Thoughts...</label>
+        <label for="replyBox" class="reply-label">Your Throughts...</label>
         <textarea class="reply-box" id="replyBox"
-          placeholder="Bubs, this space is yours,write whatever is in your heart..."></textarea>
+          placeholder="Kaveesha, this space is yours,write whatever is in your heart..."></textarea>
         <div class="btn-group">
           <button id="sendEmailBtn" class="action-btn">Send via Email</button>
           <button id="sendWhatsappBtn" class="action-btn">Send via WhatsApp</button>
