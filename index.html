@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moda Eluwa</title>
+  <link rel="stylesheet" href="kaveesha.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400&display=swap"
+    rel="stylesheet">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <div class="night-wrap">
+    <canvas class="stars-canvas" id="starsCanvas"></canvas>
+    <canvas class="petals-canvas" id="petalsCanvas"></canvas>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" src="adaariye.m4a?v=2" preload="auto" loop></audio>
+
+    <!-- Floating Music Player Control -->
+    <div class="music-pill" id="musicToggleBtn" title="Click to play / pause music">
+      <div class="music-disc" id="musicDisc">🎵</div>
+      <div class="music-info">
+        <span class="music-title">Adaariye · Cozzy</span>
+        <span class="music-action" id="musicActionText">Click to Play</span>
+      </div>
+      <button class="music-play-btn" id="musicPlayIcon" aria-label="Play or Pause">▶</button>
+    </div>
+
+    <!-- Floating Day / Night Theme Toggle -->
+    <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Daytime / Night Mode" title="Switch between Day and Night">
+      <span class="theme-icon" id="themeIcon">☀️</span>
+      <span class="theme-label" id="themeLabel">Day</span>
+    </button>
+
+    <header class="hero" id="hero">
+      <div class="moon"></div>
+      <div class="shooting-star" style="top:10%;left:20%;animation-delay:1s;"></div>
+      <div class="shooting-star" style="top:20%;left:60%;animation-delay:4s;transform:rotate(15deg)"></div>
+
+      <div class="glass-panel hero-content">
+        <h1 class="hero-title">Dear Bubs</h1>
+        <p class="hero-sub">a night sky love letter</p>
+        <p class="hero-tagline">under the same stars, our story began</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="section glass-panel">
+        <h2 class="section-title">our constellations</h2>
+        <div class="timeline">
+          <div class="timeline-line"></div>
+          <div class="const-card" data-index="0">
+            <div class="const-dot"></div>
+            <div class="const-date">19 Nov 2025</div>
+            <div class="const-label">First met</div>
+            <div class="const-desc">U first talked to me</div>
+          </div>
+          <div class="const-card" data-index="1">
+            <div class="const-dot highlight-dot"></div>
+            <div class="const-date">28 Apr 2026</div>
+            <div class="const-label">The confession</div>
+            <div class="const-desc">Words typed in the dark, hearts racing.</div>
+          </div>
+          <div class="const-card" data-index="2">
+            <div class="const-dot"></div>
+            <div class="const-date">4 May 2026</div>
+            <div class="const-label">It became official</div>
+            <div class="const-desc">Face to face, the question that changed everything. You said yes.(LAB exam)</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="counter-section glass-panel">
+        <div class="counter-item">
+          <div class="counter-num" id="cnt-met">—</div>
+          <div class="counter-label">days since we met</div>
+        </div>
+        <div class="counter-divider"></div>
+        <div class="counter-item">
+          <div class="counter-num" id="cnt-official">—</div>
+          <div class="counter-label">days together</div>
+        </div>
+        <div class="counter-divider"></div>
+        <div class="counter-item">
+          <div class="counter-num" id="cnt-next">—</div>
+          <div class="counter-label" id="cnt-next-label">days to 6 months</div>
+        </div>
+      </section>
+
+      <section class="photo-section glass-panel">
+        <h2 class="section-title">📸</h2>
+        <div class="photo-frame" id="photoFrame">
+          <div class="photo-inner">
+            <img id="photoImg" src="us.JPG" alt="Our photo" style="display: block;">
+          </div>
+          <div class="photo-caption">you & me</div>
+        </div>
+      </section>
+
+      <section class="message-section glass-panel">
+        <h2 class="section-title">a letter to you</h2>
+        <div class="letter-card">
+          <span class="letter-quote">"</span>
+          <div class="letter-body">
+            Bubs, I didn't plan on falling for you,but here I am, absolutely zero regrets, 100% yours. 🥺✨
+          </div>
+          <div class="letter-sig">— with love, always</div>
+        </div>
+      </section>
+
+      <section class="reply-section glass-panel">
+        <label for="replyBox" class="reply-label">Your Throughts...</label>
+        <textarea class="reply-box" id="replyBox"
+          placeholder="Kaveesha, this space is yours,write whatever is in your heart..."></textarea>
+        <div class="btn-group">
+          <button id="sendEmailBtn" class="action-btn">Send via Email</button>
+          <button id="sendWhatsappBtn" class="action-btn">Send via WhatsApp</button>
+        </div>
+        <p id="reply-status" class="status-text"></p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-text">Luv you to the moon 🌕 & beyond 🌌</div>
+    </footer>
+  </div>
+
+  <!-- Glassy Modal Popup for Constellations -->
+  <div class="modal-overlay" id="constellationModal">
+    <div class="glass-panel modal-content">
+      <button class="modal-close" id="modalCloseBtn">&times;</button>
+      <div class="modal-image-container">
+        <img src="" alt="Constellation memory image" id="modalImage">
+      </div>
+      <div class="modal-text-container">
+        <h3 id="modalTitle" class="modal-title"></h3>
+        <p id="modalDate" class="modal-date"></p>
+        <blockquote id="modalQuote" class="modal-quote"></blockquote>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
